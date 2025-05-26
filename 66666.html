@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ 
+  <!-- 基本 SEO Meta -->
+  <title>複利計算機 | 線上複利終值計算機 | (附計算公式教學)</title>
+  <meta name="description" content="立即使用線上免費複利計算機，支援日/月/年等多種複利頻率。輸入本金與利率，即可查看投資終值與詳細計算明細。" />
+  <meta name="keywords" content="复利计算器,在线复利计算器,复利终值计算器" />
+ 
+  <!-- Open Graph & Twitter Card -->
+  <meta property="og:title" content="線上免費複利計算機｜多幣種 & 多頻率計算工具" />
+  <meta property="og:description" content="快試試免費線上複利計算機，支援日複利、月度複利、季度複利，輕鬆規劃財務增長。" />
+  <meta property="og:image" content="https://www.yoursite.com/assets/compound-og.jpg"  />
+  <meta property="og:url" content="https://www.yoursite.com/compound.html"  />
+  <meta name="twitter:card" content="summary_large_image" />
+ 
+  <!-- WebApplication & FAQPage 結構化資料 -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org", 
+    "@type":"WebApplication",
+    "name":"線上免費複利計算機",
+    "url":"https://www.yoursite.com/compound.html", 
+    "applicationCategory":"FinanceApplication",
+    "description":"支援多幣種、多頻率（日複利、月複利、季度複利）的免費線上複利計算機，並提供使用方法、公式與效應舉例。",
+    "faq":{"@type":"FAQPage","mainEntity":[
+      {"@type":"Question","name":"如何使用免費線上複利計算機？","acceptedAnswer":{"@type":"Answer","text":"輸入本金、年利率、年限，選擇幣種與頻率，點擊計算即可。"}},
+      {"@type":"Question","name":"複利計算公式為何？","acceptedAnswer":{"@type":"Answer","text":"公式為 A = P × (1 + r/n)^(n×t)。"}}
+    ]}
+  }
+  </script>
+ 
+  <!-- BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org", 
+    "@type":"BreadcrumbList",
+    "itemListElement":[
+      {"@type":"ListItem","position":1,"name":"首頁","item":"https://www.yoursite.com/"}, 
+      {"@type":"ListItem","position":2,"name":"理財工具","item":"https://www.yoursite.com/tools/"}, 
+      {"@type":"ListItem","position":3,"name":"複利計算機","item":"https://www.yoursite.com/compound.html"} 
+    ]
+  }
+  </script>
+ 
+  <style>
+    /* Reset & 基础样式 */
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Segoe UI',sans-serif; line-height:1.6; color:#333; background:#f9f9f9; }
+ 
+    /* Header */
+    header { background:#1a73e8; color:#fff; padding:1rem; }
+    .container { max-width:1200px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; }
+    .logo { font-size:1.5rem; font-weight:bold; }
+    nav.header-nav  a { color:#fff; text-decoration:none; margin-left:1.5rem; }
+ 
+    /* Breadcrumb */
+    nav[aria-label="Breadcrumb"] ol {
+      list-style:none; display:flex; gap:0.5rem; margin:1rem auto; max-width:800px;
+    }
+    nav[aria-label="Breadcrumb"] li::after { content:'›'; margin:0 0.5rem; }
+    nav[aria-label="Breadcrumb"] li:last-child::after { content:''; }
+ 
+    /* Main & 卡片效果 */
+    main { max-width:800px; margin:0 auto; padding:1rem; }
+    main section {
+      margin-top:2.5rem; padding:1.5rem; border-radius:10px; background:#fff;
+      box-shadow:0 1px 4px rgba(0,0,0,0.08); transition:transform .2s,box-shadow .2s;
+    }
+    main section:hover {
+      transform:translateY(-6px); box-shadow:0 4px 16px rgba(0,0,0,0.12);
+    }
+    h1 { text-align:center; font-size:2rem; margin-top:1rem; }
+ 
+    /* 表单 */
+    form label { display:block; margin-top:1rem; font-weight:600; }
+    form input,form select {
+      width:100%; padding:.5rem; margin-top:.25rem; border:1px solid #ccc; border-radius:4px; font-size:1rem;
+    }
+    form button {
+      margin-top:1.5rem; padding:.75rem; background:#1a73e8; color:#fff; border:none; border-radius:4px;
+      width:100%; font-size:1rem; cursor:pointer;
+    }
+    form button:hover { background:#155ab6; }
+ 
+    .result {
+      margin-top:1.5rem; padding:1rem; border-radius:4px; background:#e8f0fe; font-weight:bold; text-align:center;
+    }
+ 
+    /* 各区块标题 */
+    section h2 {
+      font-size:1.6rem; margin-bottom:1rem; color:#1a73e8; position:relative;
+    }
+ 
+    /* 表格容器 */
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      margin: 1rem 0;
+      -webkit-overflow-scrolling: touch; /* 平滑滾動 */
+    }
+ 
+    /* 表格樣式 */
+    .table-container table {
+      width: 100%;
+      min-width: 600px; /* 確保表格最小寬度 */
+      border-collapse: collapse;
+      text-align: center;
+    }
+ 
+    .table-container th, 
+    .table-container td {
+      padding: 0.75rem 0.5rem;
+      border: 1px solid #e0e0e0;
+    }
+ 
+    .table-container thead {
+      background: #1a73e8;
+      color: #fff;
+      position: sticky;
+      top: 0;
+    }
+ 
+    .table-container tbody tr:nth-child(even) {
+      background: #f9f9f9;
+    }
+ 
+    .table-container tbody tr:hover {
+      background: #e8f0fe;
+    }
+ 
+    /* 響應式調整 */
+    @media (max-width: 768px) {
+      .table-container {
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+      }
+    }
+ 
+    /* Footer */
+    footer { text-align:center; padding:1rem; background:#f1f1f1; margin-top:2rem; font-size:.9rem; }
+ 
+    @media(max-width:600px){
+      .container { flex-direction:column; align-items:flex-start; }
+      nav.header-nav  a { margin:.5rem 0 0 0; display:block; }
+    }
+ 
+    /* 計算功能整體區塊 */
+    #calculator-block {
+      margin: 2rem auto;
+      padding: 1.5rem;
+      border: 2px solid #1a73e8;       /* 顯眼的藍色邊框 */
+      border-radius: 8px;
+      background-color: #ffffff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      max-width: 800px;
+    }
+ 
+    /* 懸停時浮起效果 */
+    #calculator-block:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    }
+ 
+    /* 區塊內部元素微調 */
+    #calculator-block h1 {
+      margin-bottom: 1rem;
+      font-size: 1.8rem;
+      color: #1a73e8;
+      text-align: center;
+    }
+ 
+    #calculator-block form {
+      margin-bottom: 1rem;
+    }
+ 
+    #calculator-block .result {
+      margin-top: 1rem;
+      padding: 1rem;
+      border-top: 1px solid #e0e0e0;
+      font-weight: bold;
+      text-align: center;
+      background: #e8f0fe;
+      border-radius: 4px;
+    }
+ 
+    /* 加載指示器 */
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 1rem;
+    }
+    .loading-spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #1a73e8;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+ 
+    /* 錯誤提示 */
+    .error-message {
+      color: #d32f2f;
+      background-color: #fde8e8;
+      padding: 0.5rem;
+      border-radius: 4px;
+      margin-top: 0.5rem;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="logo">複利計算機</div>
+      <nav class="header-nav" aria-label="主導航">
+        <a href="/">首頁</a>
+        <a href="/tools/">理財工具</a>
+        <a href="/about/">關於我們</a>
+        <a href="/contact/">聯絡</a>
+      </nav>
+    </div>
+  </header>
+ 
+  <!-- 可视 Breadcrumb -->
+  <nav aria-label="Breadcrumb">
+    <ol>
+      <li><a href="/">首頁</a></li>
+      <li><a href="/tools/">理財工具</a></li>
+      <li aria-current="page">複利計算機</li>
+    </ol>
+  </nav>
+ 
+  <main>
+    <section id="calculator-block">
+      <section class="tool-intro" style="margin-top: 1rem;">
+        <p>
+          本款<strong>免費線上複利計算器</strong> 不僅支援 <strong>日／月／年複利方式</strong>，還能幫你 <strong>試算利滾利終值</strong>、<strong>預估投資報酬</strong> 與 <strong>年化報酬率</strong> 等重要 <strong>財務指標</strong>，每月投資10,000元，年報酬率6%，20年後可累積約460萬元！立即試算您的投資計劃。。
+        </p>
+      </section>
+      <h1>複利終值計算機</h1>
+ 
+      <form id="compoundForm">
+        <label for="principal">初始金額（Principal）</label>
+        <input type="number" id="principal" aria-label="初始金額" placeholder="例如 10,000" required min="0" step="0.01" />
+        <div class="error-message" id="principal-error"></div>
+ 
+        <label for="rate">年利率（%）</label>
+        <input type="number" id="rate" aria-label="年利率" step="0.01" placeholder="例如 5" required min="0" max="100" />
+        <div class="error-message" id="rate-error"></div>
+ 
+        <label for="years">投資年限（Years）</label>
+        <input type="number" id="years" aria-label="投資年限" placeholder="例如 10" required min="1" max="100" />
+        <div class="error-message" id="years-error"></div>
+ 
+        <label for="currency">選擇幣種（Currency）</label>
+        <select id="currency" aria-label="選擇幣種" required>
+          <option value="TWD">臺幣（TWD）</option>
+          <option value="USD" data-locale="en-US">$ 美元 (USD)</option>
+          <option value="EUR" data-locale="de-DE">€ 歐元 (EUR)</option>
+          <option value="JPY" data-locale="ja-JP">¥ 日元 (JPY)</option>
+        </select>
+ 
+        <label for="frequency">複利頻率（Frequency）</label>
+        <select id="frequency" aria-label="複利頻率" required>
+          <option value="365">每日複利</option>
+          <option value="12">月度複利</option>
+          <option value="4">季度複利</option>
+          <option value="2">半年複利</option>
+          <option value="1">年度複利</option>
+        </select>
+ 
+        <button type="submit" id="calculate-btn">立即試算我的複利收益</button>
+        <div class="loading" id="loading-indicator">
+          <div class="loading-spinner"></div>
+          <p>計算中...</p>
+        </div>
+      </form>
+      <div class="result" id="result">複利計算結果將顯示在這裡</div>
+    </section>
+ 
+    <!-- 复利值表 区块 -->
+    <section id="table">
+      <h2>複利計算终值表</h2>
+      <div class="table-container" id="result-table"></div>
+    </section>
+ 
+    <!-- 介绍区块 -->
+    <section id="intro">
+      <h2>複利計算機介紹</h2>
+      <p>複利計算機是一款免費的線上工具，可用來預測複利終值，協助你快速估算存款、股票或加密貨幣等投資的未來收益。透過標準的複利公式，輕鬆了解利滾利的增長效果。本工具支援日、月、年等多種複利計算方式，並可即時顯示詳細計算過程與結果。</p>
+    </section>
+ 
+    <!-- 使用教学 -->
+    <section id="usage">
+      <h2>工具使用步驟</h2>
+      <ol>
+        <li>輸入初始本金</li>
+        <li>輸入年利率（%）</li>
+        <li>投資年限（Years）-（比如5年）</li>
+        <li>選擇幣種（Currency）</li>
+        <li>複利頻率（Frequency）</li>
+        <li>點擊 <strong>「立即計算」</strong>，即可查看期末總金額與詳細收益分析。</li>
+      </ol>
+ 
+      <p><strong>投資技巧：</strong><br>
+      複利頻率越高，期末總額越多。善用這個工具，讓資產成長更有效率。</p>
+    </section>
+ 
+    <!-- 公式区块 -->
+    <section id="formula">
+      <h2>複利計算公式</h2>
+      <p><strong>计算复利的关键因素是在给定时间内复合的本金，利率和频率。</strong></p>
+      <p>计算公式为：</p>
+      <code>A = P × (1 + r / n)<sup>n × t</sup></code>
+ 
+      <p><strong>參數說明：</strong></p>
+      <ul>
+        <li><strong>A</strong>：期末總額（含本利和）</li>
+        <li><strong>P</strong>：初始投入本金</li>
+        <li><strong>r</strong>：年利率（以小數表示，如 5% 為 0.05）</li>
+        <li><strong>n</strong>：每年的複利次數（如每月為 12、每年為 1）</li>
+        <li><strong>t</strong>：投資年數</li>
+      </ul>
+ 
+      <p><strong>說明：</strong><br>
+      這個公式會根據每期利息加入本金重新計算，形成「利滾利」的效果。<br>
+      當 <strong>n</strong> 越大（即複利越頻繁），期末總額 <strong>A</strong> 也會越高。</p>
+    </section>
+ 
+    <!-- 举例区块 -->
+    <section id="example">
+      <h2>複利效應舉例</h2>
+      <p>假你有 10,000 元本金，每年利率 5%，利息每年複利一次。</p>
+ 
+      <p>📅 <strong>第一年：</strong><br>
+      本金：10,000 元<br>
+      利息：10,000 × 5% = 500 元<br>
+      年末總額：10,500 元</p>
+ 
+      <p>📅 <strong>第二年：</strong><br>
+      本金變為：10,500 元<br>
+      利息：10,500 × 5% = 525 元<br>
+      年末總額：11,025 元</p>
+ 
+      <p>📅 <strong>第三年：</strong><br>
+      本金變為：11,025 元<br>
+      利息：11,025 × 5% = 551.25 元<br>
+      年末總額：11,576.25 元</p>
+ 
+      <p><strong>✅小結 </strong><br>
+      如果你每年取出利息，那麼三年總共只會賺：500 + 500 + 500 = 1,500 元<br>
+      但因為<strong>複利不取出利息</strong>，利滾利的結果是三年總額變成：11,576.25 元，多賺了 76.25 元</p>
+ 
+      <p><strong>🔍 複利效應的關鍵：</strong></p>
+      <ul>
+        <li>時間越長，效果越明顯</li>
+        <li>不取出利息，讓利息也賺利息</li>
+        <li>就像滾雪球，越滾越大</li>
+      </ul>
+    </section>
+ 
+    <!-- FAQ 可视区块 -->
+    <section id="faq">
+      <h2>常見問題</h2>
+      <div class="faq-item">
+        <h3>1. 這個工具能用於哪些用途？</h3>
+        <p>它適合用於投資預估、財務規劃、利息試算、退休金累積等用途。</p>
+      </div>
+      <div class="faq-item">
+        <h3>1. 複利是什麼？</h3>
+        <p>複利是指將每期利息計入本金，下一期計算時以更新後的本金計算利息，也稱為「利滾利」。</p>
+      </div>
+      <div class="faq-item">
+        <h3>2. 什麼是複利總值？</h3>
+        <p>複利總值是指將資金以複利方式投資後，在未來某一時間點的本金與利息合計金額。</p>
+      </div>
+      <div class="faq-item">
+        <h3>3. 計算結果會同時列出「本金總額」與「總利息」嗎？</h3>
+        <p>是，本工具會顯示「未來總值（FV）」、「本金投入總額」及「累計利息收益」，並提供年度或每期明細。</p>
+      </div>
+      <div class="faq-item">
+        <h3> 4. 72 法則是什麼？如何快速估算資金翻倍年限？</h3>
+        <p>72 法則以 72 除以年利率百分比，即可得近似翻倍所需年數。例如 5% 年利率 ⇒ 72 / 5 ≈ 14.4 年。</p>
+      </div>
+      <div class="faq-item">
+        <h3>5. 複利結果有考慮「利息所得稅」嗎？</h3>
+        <p>一般線上計算器 不會 自動扣除稅金；台灣境內存款利息依規定「按給付額扣取 10%」作為利息所得稅。</p>
+      </div>
+ 
+      <div class="faq-item">
+        <h3>6 複利頻率（n）通常有哪些選項？</h3>
+        <p>常見有「年複利（Annually）」、「季複利（Quarterly）」、「月複利（Monthly）」、「日複利（Daily）」等；台灣銀行定存多以 月複利 為主，請選「Monthly」。</p>
+      </div>
+ 
+      <div class="faq-item">
+        <h3>7. 我該以哪種「貨幣」輸入本金？</h3>
+        <p>線上複利計算器大多支援多種幣別，但若未提供直接選擇，請以 新台幣（TWD） 直接輸入金額，並在標注欄位或計算器備註處註明「TWD」。</p>
+      </div>
+    </section>
+  </main>
+ 
+  <footer>
+    &copy; 2025 線上免費複利計算機 │ All rights reserved.
+  </footer>
+ 
+  <script>
+    document.addEventListener('DOMContentLoaded',  function() {
+      const form = document.getElementById('compoundForm'); 
+      const loadingIndicator = document.getElementById('loading-indicator'); 
+      const calculateBtn = document.getElementById('calculate-btn'); 
+      
+      // 輸入驗證函數 
+      function validateInputs() {
+        let isValid = true;
+        
+        // 驗證本金
+        const principal = parseFloat(document.getElementById('principal').value); 
+        if (isNaN(principal) || principal <= 0) {
+          document.getElementById('principal-error').textContent  = '請輸入有效的本金金額';
+          document.getElementById('principal-error').style.display  = 'block';
+          isValid = false;
+        } else {
+          document.getElementById('principal-error').style.display  = 'none';
+        }
+        
+        // 驗證利率 
+        const rate = parseFloat(document.getElementById('rate').value); 
+        if (isNaN(rate) || rate <= 0 || rate > 100) {
+          document.getElementById('rate-error').textContent  = '請輸入有效的利率 (0-100%)';
+          document.getElementById('rate-error').style.display  = 'block';
+          isValid = false;
+        } else {
+          document.getElementById('rate-error').style.display  = 'none';
+        }
+        
+        // 驗證年限 
+        const years = parseInt(document.getElementById('years').value,  10);
+        if (isNaN(years) || years <= 0 || years > 100) {
+          document.getElementById('years-error').textContent  = '請輸入有效的年限 (1-100年)';
+          document.getElementById('years-error').style.display  = 'block';
+          isValid = false;
+        } else {
+          document.getElementById('years-error').style.display  = 'none';
+        }
+        
+        return isValid;
+      }
+      
+      // 渲染複利表格
+      function renderCompoundTable(P, r, n, years, locale, currency) {
+        const container = document.getElementById('result-table'); 
+        container.innerHTML  = '';
+        
+        // 創建表格外層容器以確保響應式滾動 
+        const tableWrapper = document.createElement('div'); 
+        tableWrapper.className  = 'table-responsive';
+        
+        const table = document.createElement('table'); 
+        
+        // 表頭
+        const thead = document.createElement('thead'); 
+        thead.innerHTML  = `
+          <tr>
+            <th>年數 (t)</th>
+            <th>期末總額</th>
+            <th>該年利息收益</th>
+            <th>累計利息</th>
+          </tr>`;
+        table.appendChild(thead); 
+        
+        // 表體
+        const tbody = document.createElement('tbody'); 
+        let previousTotal = P;
+        let totalInterest = 0;
+ 
+        for (let t = 1; t <= years; t++) {
+          const currentTotal = P * Math.pow(1  + r / n, n * t);
+          const interest = currentTotal - previousTotal;
+          totalInterest += interest;
+ 
+          const formattedTotal = new Intl.NumberFormat(locale, {
+            style: 'currency',
+            currency,
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2 
+          }).format(currentTotal);
+ 
+          const formattedInterest = new Intl.NumberFormat(locale, {
+            style: 'currency',
+            currency,
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+          }).format(interest);
+ 
+          const formattedTotalInterest = new Intl.NumberFormat(locale, {
+            style: 'currency',
+            currency,
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+          }).format(totalInterest);
+ 
+          const tr = document.createElement('tr'); 
+          tr.innerHTML  = `
+            <td>${t}</td>
+            <td>${formattedTotal}</td>
+            <td>${formattedInterest}</td>
+            <td>${formattedTotalInterest}</td>
+          `;
+          tbody.appendChild(tr); 
+          previousTotal = currentTotal;
+        }
+ 
+        table.appendChild(tbody); 
+        tableWrapper.appendChild(table); 
+        container.appendChild(tableWrapper); 
+      }
+ 
+      // 表單提交處理 
+      form.addEventListener('submit',  function(e) {
+        e.preventDefault(); 
+        
+        if (!validateInputs()) {
+          return;
+        }
+        
+        // 顯示加載指示器 
+        loadingIndicator.style.display  = 'block';
+        calculateBtn.disabled  = true;
+        
+        // 模擬計算延遲（實際應用中可以移除）
+        setTimeout(function() {
+          try {
+            const P = parseFloat(document.getElementById('principal').value); 
+            const r = parseFloat(document.getElementById('rate').value)  / 100;
+            const years = parseInt(document.getElementById('years').value,  10);
+            const frequency = document.getElementById('frequency'); 
+            const n = parseInt(frequency.value,  10);
+ 
+            const sel = document.getElementById('currency').selectedOptions[0]; 
+            const locale = sel.dataset.locale  || 'zh-TW';
+            const currency = sel.value; 
+ 
+            const amount = P * Math.pow(1  + r / n, n * years);
+            const formattedTotal = new Intl.NumberFormat(locale, {
+              style: 'currency', 
+              currency, 
+              minimumFractionDigits: 2, 
+              maximumFractionDigits: 2
+            }).format(amount);
+            
+            document.getElementById('result').textContent  =
+              `經 ${years} 年，按「${frequency.selectedOptions[0].text} 」複利 ${n * years} 次後，總金額為：${formattedTotal}`;
+ 
+            renderCompoundTable(P, r, n, years, locale, currency);
+          } catch (error) {
+            console.error(' 計算錯誤:', error);
+            document.getElementById('result').textContent  = '計算過程中發生錯誤，請檢查輸入值';
+          } finally {
+            // 隱藏加載指示器
+            loadingIndicator.style.display  = 'none';
+            calculateBtn.disabled  = false;
+          }
+        }, 500); // 模擬計算延遲
+      });
+    });
+  </script>
+ 
+  <!-- FAQ JSON-LD 結構化標記 -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org", 
+    "@type":"FAQPage",
+    "mainEntity":[
+      {
+        "@type":"Question",
+        "name":"單利與複利，哪個比較好？",
+        "acceptedAnswer":{
+          "@type":"Answer",
+          "text":"複利會將上期利息併入下一期本金一併計算，隨著時間增長，收益遠高於單利；若計算期短且利率低，差異不明顯。"
+        }
+      },
+      {
+        "@type":"Question",
+        "name":"利息和複利的區別？",
+        "acceptedAnswer":{
+          "@type":"Answer",
+          "text":"利息通常指單期按本金計算的收益，複利則會把每期產生的利息加入本金再計算下一期利息，實際收益更高。"
+        }
+      },
+      {
+        "@type":"Question",
+        "name":"複利投資是什麼意思？",
+        "acceptedAnswer":{
+          "@type":"Answer",
+          "text":"複利投資指將投資所得利息持續再投入，讓本金與利息共同產生新利息，實現"滾雪球"式增長。"
+        }
+      }
+    ]
+  }
+  </script>
+</body>
+</html>
